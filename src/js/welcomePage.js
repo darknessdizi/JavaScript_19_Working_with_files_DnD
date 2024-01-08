@@ -1,6 +1,5 @@
-import WidgetPopover from './widget/WidgetPopover';
-import WindowEdit from './CRM-sistem/WindowEditor';
-import EditController from './CRM-sistem/EditController';
+import WindowEditor from './system-trello/WindowEditor';
+import EditController from './system-trello/EditController';
 
 function createLinks() {
   // Создаем ссылки на наши задачи
@@ -29,7 +28,7 @@ function onReturnClick() {
   body.append(mainDiv);
 }
 
-function createButton(mainBlock) {
+export function createButton(mainBlock) {
   // Создаем кнопку возврата на главную страницу
   const btn = document.createElement('button');
   btn.textContent = 'Return';
@@ -42,24 +41,13 @@ function runTask1() {
   // Запуск задачи 1
   body.innerHTML = '';
   body.classList.add('task-1');
-  for (let i = 0; i < 3; i += 1) {
-    const div = document.createElement('div');
-    div.classList.add('conteiner');
-    div.classList.add(`test${i + 1}`);
-    body.append(div);
-
-    const widget = new WidgetPopover(div);
-    widget.bindToDOM();
-  }
-
-  createButton(body);
+  const edit = new WindowEditor(body);
+  const controller = new EditController(edit);
+  controller.init();
 }
 
 function runTask2() {
   // Запуск задачи 2
   body.innerHTML = '';
-  const sistem = new WindowEdit();
-  const controller = new EditController(sistem);
-  controller.init();
-  createButton(sistem.conteiner);
+  createButton(body);
 }

@@ -3,9 +3,9 @@ export default class WindowEditor {
     this.parent = parent;
     this.conteiner = null;
     this.form = null;
-    // this.btnNewCard = null;
     this.buttonAddListeners = [];
     this.buttonAddNewCardListeners = [];
+    this.crossListeners = [];
   }
 
   bindToDOM() {
@@ -46,22 +46,12 @@ export default class WindowEditor {
     return btn;
   }
 
-  onClickButtonAdd(event) {
-    // Запускает обработчик для кнопки "Add another card"
-    event.preventDefault();
-    this.buttonAddListeners.forEach((o) => o.call(null, event));
-  }
-
-  addButtonAddListeners(callback) {
-    // Сохраняет callback для кнопки "Add another card"
-    this.buttonAddListeners.push(callback);
-  }
-
   drawFormNewCard(column) {
     // Отрисовывает форму добавления новой задачи
     this.form = WindowEditor.addTagHTML(column, 'conteiner-new-card', 'form');
     this.form.setAttribute('name', 'card');
     this.form.setAttribute('id', 'new-card');
+    this.form.setAttribute('novalidate', '');
 
     const textarea = document.createElement('textarea');
     textarea.classList.add('new-card-textarea');
@@ -79,22 +69,44 @@ export default class WindowEditor {
     btnNewCard.setAttribute('form', 'new-card');
     divControl.append(btnNewCard);
     const cross = WindowEditor.addTagHTML(divControl, 'control-cross');
-    btnNewCard.addEventListener('click', (event) => this.onClickButtonNewCard(event), { once: true });
+    this.form.addEventListener('submit', (event) => this.onClickButtonNewCard(event));
+    cross.addEventListener('click', (event) => this.onClickCross(event));
   }
 
   onClickButtonNewCard(event) {
     // Запускает обработчик для кнопки "Add card" при добавлении новой задачи
-    // event.preventDefault();
-    // if (event.t) {
-
-    // }
-    console.log(event)
-    this.buttonAddNewCardListeners.forEach((o) => o.call(null, event));
+    event.preventDefault();
+    if (this.form.checkValidity()) {
+      console.log('valid');
+      this.buttonAddNewCardListeners.forEach((o) => o.call(null));
+    } else {
+      console.log('invalid');
+    }
   }
 
   addButtonAddNewCardListeners(callback) {
     // Сохраняет callback для кнопки "Add card" при добавлении новой задачи
     this.buttonAddNewCardListeners.push(callback);
+  }
+
+  onClickCross() {
+    this.crossListeners.forEach((o) => o.call(null));
+  }
+
+  addCrossListeners(callback) {
+    // Сохраняет callback для блока с крестиком при добавлении новой задачи
+    this.crossListeners.push(callback);
+  }
+
+  onClickButtonAdd(event) {
+    // Запускает обработчик для кнопки "Add another card" (запуск формы новой задачи)
+    event.preventDefault();
+    this.buttonAddListeners.forEach((o) => o.call(null, event));
+  }
+
+  addButtonAddListeners(callback) {
+    // Сохраняет callback для кнопки "Add another card"
+    this.buttonAddListeners.push(callback);
   }
 
   drawNewCard(parent, value) {

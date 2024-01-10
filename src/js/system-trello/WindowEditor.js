@@ -6,20 +6,17 @@ export default class WindowEditor {
     this.buttonAddListeners = [];
     this.buttonAddNewCardListeners = [];
     this.crossListeners = [];
+    this.mouseOverListeners = [];
+    this.mouseOutListeners = [];
   }
 
   bindToDOM() {
     // Создает и добавляет блок main в body
     this.conteiner = WindowEditor.addTagHTML(this.parent, 'content', 'main');
     const mainBlock = WindowEditor.addTagHTML(this.conteiner, 'conteiner');
-    let btn = WindowEditor.addColumn(mainBlock, 'Задачи');
-    btn.addEventListener('click', (event) => this.onClickButtonAdd(event));
-
-    btn = WindowEditor.addColumn(mainBlock, 'В процессе');
-    btn.addEventListener('click', (event) => this.onClickButtonAdd(event));
-
-    btn = WindowEditor.addColumn(mainBlock, 'Выполнены');
-    btn.addEventListener('click', (event) => this.onClickButtonAdd(event));
+    this.addColumn(mainBlock, 'Задачи');
+    this.addColumn(mainBlock, 'В процессе');
+    this.addColumn(mainBlock, 'Выполнены');
   }
 
   static addTagHTML(parent, className = null, type = 'div') {
@@ -30,7 +27,7 @@ export default class WindowEditor {
     return div;
   }
 
-  static addColumn(mainBlock, title) {
+  addColumn(mainBlock, title) {
     // Создает колонку и добавляет его на главную странцу
     const divColumn = WindowEditor.addTagHTML(mainBlock, 'column');
     const columnTitle = WindowEditor.addTagHTML(divColumn, 'column-title', 'h3');
@@ -43,7 +40,10 @@ export default class WindowEditor {
     const btn = WindowEditor.addTagHTML(divButton, 'btn-add-card', 'button');
     btn.textContent = 'Add another card';
     btn.type = 'button';
-    return btn;
+
+    divColumn.addEventListener('mouseover', (event) => this.onMouseOverColumn(event));
+    divColumn.addEventListener('mouseout', (event) => this.onMouseOutColumn(event));
+    btn.addEventListener('click', (event) => this.onClickButtonAdd(event));
   }
 
   drawFormNewCard(column) {
@@ -71,6 +71,32 @@ export default class WindowEditor {
     const cross = WindowEditor.addTagHTML(divControl, 'control-cross');
     this.form.addEventListener('submit', (event) => this.onClickButtonNewCard(event));
     cross.addEventListener('click', (event) => this.onClickCross(event));
+  }
+
+  drawNewCard(parent, value) {
+    // Отрисовывает карточку задачи в колонку parent
+    this.form.remove();
+    const btn = parent.querySelector('.conteiner-button');
+    btn.classList.remove('noactive');
+
+    const card = document.createElement('div');
+    card.classList.add('card');
+    card.textContent = value;
+    btn.before(card);
+  }
+
+  addElementCross(parent) {
+    // Добавляет поле с крестиком для зыкрытия задачи
+    const cross = WindowEditor.addTagHTML(parent, 'card-cross');
+  }
+
+  deleteElementCross(element) {
+    const cross = element.querySelector('.card-cross') || element;
+    cross.remove();
+    // const cross = parent.querySelector('.card-cross');
+    // if (cross) {
+    //   cross.forEach((el) => el.remove());
+    // }
   }
 
   onClickButtonNewCard(event) {
@@ -109,14 +135,21 @@ export default class WindowEditor {
     this.buttonAddListeners.push(callback);
   }
 
-  drawNewCard(parent, value) {
-    this.form.remove();
-    const btn = parent.querySelector('.conteiner-button');
-    btn.classList.remove('noactive');
+  onMouseOverColumn(event) {
+    this.mouseOverListeners.forEach((o) => o.call(null, event));
+  }
 
-    const card = document.createElement('div');
-    card.classList.add('card');
-    card.textContent = value;
-    btn.before(card);
+  addOverColumnListeners(callback) {
+    // Сохраняет callback для кнопки "Add another card"
+    this.mouseOverListeners.push(callback);
+  }
+
+  onMouseOutColumn(event) {
+    this.mouseOutListeners.forEach((o) => o.call(null, event));
+  }
+
+  addOutColumnListeners(callback) {
+    // Сохраняет callback для кнопки "Add another card"
+    this.mouseOutListeners.push(callback);
   }
 }

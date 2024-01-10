@@ -126,6 +126,8 @@ body.task-1 {
 
 .card {
   width: 100%;
+  min-height: 3em;
+  word-break: break-word;
   background-color: #f6f8f9;
   border-radius: 5px;
   margin-bottom: 5px;
@@ -133,4 +135,18 @@ body.task-1 {
   box-sizing: border-box;
   color: rgb(49, 49, 49);
   font-size: 0.8em;
+  position: relative;
+}
+
+.card-cross {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 1em;
+  height: 1em;
+  background-image: url('../img/cross.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #f6f8f9;
 }

@@ -10,13 +10,17 @@ export default class WindowEditor {
     this.mouseOutListeners = [];
   }
 
-  bindToDOM() {
+  bindToDOM(object) {
     // Создает и добавляет блок main в body
     this.conteiner = WindowEditor.addTagHTML(this.parent, 'content', 'main');
     const mainBlock = WindowEditor.addTagHTML(this.conteiner, 'conteiner');
-    this.addColumn(mainBlock, 'Задачи');
-    this.addColumn(mainBlock, 'В процессе');
-    this.addColumn(mainBlock, 'Выполнены');
+    for (const params of Object.entries(object)) {
+      const [slug, obj] = params;
+      this.addColumn(mainBlock, obj.title, slug);
+      for (const task of obj.data) {
+        this.drawNewCard(slug, task);
+      }
+    }
   }
 
   static addTagHTML(parent, className = null, type = 'div') {
@@ -27,9 +31,10 @@ export default class WindowEditor {
     return div;
   }
 
-  addColumn(mainBlock, title) {
+  addColumn(mainBlock, title, slug) {
     // Создает колонку и добавляет его на главную странцу
     const divColumn = WindowEditor.addTagHTML(mainBlock, 'column');
+    divColumn.setAttribute('id', slug);
     const columnTitle = WindowEditor.addTagHTML(divColumn, 'column-title', 'h3');
     columnTitle.textContent = title;
 
@@ -73,9 +78,12 @@ export default class WindowEditor {
     cross.addEventListener('click', (event) => this.onClickCross(event));
   }
 
-  drawNewCard(parent, value) {
-    // Отрисовывает карточку задачи в колонку parent
-    this.form.remove();
+  drawNewCard(slug, value) {
+    // Отрисовывает карточку задачи в колонку
+    if (this.form) {
+      this.form.remove();
+    }
+    const parent = this.conteiner.querySelector(`#${slug}`);
     const btn = parent.querySelector('.conteiner-button');
     btn.classList.remove('noactive');
 
@@ -91,12 +99,9 @@ export default class WindowEditor {
   }
 
   deleteElementCross(element) {
+    // Удаляет элемент крестика у карточки
     const cross = element.querySelector('.card-cross') || element;
     cross.remove();
-    // const cross = parent.querySelector('.card-cross');
-    // if (cross) {
-    //   cross.forEach((el) => el.remove());
-    // }
   }
 
   onClickButtonNewCard(event) {

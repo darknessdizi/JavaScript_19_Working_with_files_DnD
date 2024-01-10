@@ -3,13 +3,21 @@ import { createButton } from '../welcomePage';
 export default class EditController {
   constructor(editor) {
     this.edit = editor;
-    this.column = null;
+    this.currentColum = null;
     this.currentCard = null;
+    this.state = {
+      'tasks': { title: 'Задачи', data: [1,2,3,4] },
+      'process': { title: 'В процессе', data: [1,2,3,4] },
+      'completed': { title: 'Выполнены', data: [1,2,3,4] },
+    };
   }
 
   init() {
     // Инициализация проекта
-    this.edit.bindToDOM();
+    if (localStorage.getItem('trelloData')) {
+      this.state = JSON.parse(localStorage.getItem('trelloData'));
+    }
+    this.edit.bindToDOM(this.state);
     createButton(this.edit.conteiner);
 
     this.edit.addButtonAddListeners(this.onClickButtonAdd.bind(this));
@@ -36,7 +44,20 @@ export default class EditController {
   onClickButtonAddNewCard() {
     // Callback - добавление новой задачи в колонку
     const value = this.edit.form.querySelector('.new-card-textarea').value;
-    this.edit.drawNewCard(this.currentColum, value);
+    const key = this.currentColum.id;
+    this.saveDataObject(key, value);
+
+    this.edit.drawNewCard(key, value);
+  }
+
+  saveDataObject(key, value) {
+    // Сохранение данных в localStorage
+    if (key in this.state) {
+      this.state[key].data.push(value);
+    } else {
+      this.state[key].data = [value];
+    }
+    localStorage.setItem('trelloData', JSON.stringify(this.state));
   }
 
   onClickCross() {

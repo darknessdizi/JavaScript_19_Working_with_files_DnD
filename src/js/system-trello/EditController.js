@@ -6,9 +6,9 @@ export default class EditController {
     this.currentColum = null;
     this.currentCard = null;
     this.state = {
-      'tasks': { title: 'Задачи', data: [1,2,3,4] },
-      'process': { title: 'В процессе', data: [1,2,3,4] },
-      'completed': { title: 'Выполнены', data: [1,2,3,4] },
+      'tasks': { title: 'Задачи', data: [] },
+      'process': { title: 'В процессе', data: [] },
+      'completed': { title: 'Выполнены', data: [] },
     };
   }
 
@@ -25,6 +25,8 @@ export default class EditController {
     this.edit.addCrossListeners(this.onClickCross.bind(this));
     this.edit.addOverColumnListeners(this.onMouseOverColumn.bind(this));
     this.edit.addOutColumnListeners(this.onMouseOutColumn.bind(this));
+    this.edit.addTaskCrossListeners(this.onClickTaskCross.bind(this));
+    console.log(this.state)
   }
 
   onClickButtonAdd(event) {
@@ -86,5 +88,19 @@ export default class EditController {
     }
     this.currentCard = null;
     this.edit.deleteElementCross(event.target);
+  }
+
+  onClickTaskCross(event) {
+    // Callback - удаление задачи из колонки
+    if (event.target.classList.value === 'card-cross') {
+      const card = event.target.closest('.card');
+      const key = event.target.closest('.column').id;
+      const array = this.state[key].data;
+      const index = array.indexOf(card.textContent);
+      this.state[key].data.splice(index, 1);
+      card.remove();
+      this.currentCard = null;
+      localStorage.setItem('trelloData', JSON.stringify(this.state));
+    }
   }
 }

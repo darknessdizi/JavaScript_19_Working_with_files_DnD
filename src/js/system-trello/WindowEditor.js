@@ -8,6 +8,7 @@ export default class WindowEditor {
     this.crossListeners = [];
     this.mouseOverListeners = [];
     this.mouseOutListeners = [];
+    this.taskListeners = [];
   }
 
   bindToDOM(object) {
@@ -48,6 +49,7 @@ export default class WindowEditor {
 
     divColumn.addEventListener('mouseover', (event) => this.onMouseOverColumn(event));
     divColumn.addEventListener('mouseout', (event) => this.onMouseOutColumn(event));
+    divColumn.addEventListener('click', (event) => this.onClickTaskCross(event));
     btn.addEventListener('click', (event) => this.onClickButtonAdd(event));
   }
 
@@ -156,5 +158,14 @@ export default class WindowEditor {
   addOutColumnListeners(callback) {
     // Сохраняет callback для кнопки "Add another card"
     this.mouseOutListeners.push(callback);
+  }
+
+  onClickTaskCross(event) {
+    this.taskListeners.forEach((o) => o.call(null, event));
+  }
+
+  addTaskCrossListeners(callback) {
+    // Сохраняет callback для закрытия поля задачи
+    this.taskListeners.push(callback);
   }
 }

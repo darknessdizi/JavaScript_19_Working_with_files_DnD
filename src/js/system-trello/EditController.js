@@ -5,10 +5,15 @@ export default class EditController {
     this.edit = editor;
     this.currentColum = null;
     this.currentCard = null;
+    this.actualCard = null;
     this.state = {
       'tasks': { title: 'Задачи', data: [] },
       'process': { title: 'В процессе', data: [] },
       'completed': { title: 'Выполнены', data: [] },
+    };
+    this.coordinateDeviation = {
+      x: null,
+      y: null,
     };
   }
 
@@ -26,7 +31,11 @@ export default class EditController {
     this.edit.addOverColumnListeners(this.onMouseOverColumn.bind(this));
     this.edit.addOutColumnListeners(this.onMouseOutColumn.bind(this));
     this.edit.addTaskCrossListeners(this.onClickTaskCross.bind(this));
-    console.log(this.state)
+    this.edit.addMouseDownListeners(this.mouseDownListeners.bind(this));
+    this.edit.addMouseUpListeners(this.mouseUpListeners.bind(this))
+
+    document.documentElement.addEventListener('mouseup', this.mouseUpListeners.bind(this));
+    document.documentElement.addEventListener('mousemove', this.mouseMove.bind(this));
   }
 
   onClickButtonAdd(event) {
@@ -70,6 +79,7 @@ export default class EditController {
   }
 
   onMouseOverColumn(event) {
+    // Callback - вхождение курсора мыши в поле задачи
     if (this.currentCard) return;
     if (event.target.classList.value === 'card') {
       this.currentCard = event.target;
@@ -78,6 +88,7 @@ export default class EditController {
   }
 
   onMouseOutColumn(event) {
+    // Callback - выход курсора мыши из поля задачи
     if (!this.currentCard) return;
     let relatedTarget = event.relatedTarget;
     while (relatedTarget) {
@@ -101,6 +112,50 @@ export default class EditController {
       card.remove();
       this.currentCard = null;
       localStorage.setItem('trelloData', JSON.stringify(this.state));
+    }
+  }
+
+  mouseDownListeners(event) {
+    // Удержание мышки на элементе
+    event.preventDefault();
+    if (event.target.classList.value === 'card') {
+      // console.log('удержана', 'event.target.offsetTop=', event.target.offsetTop, 'event.target.offsetLeft=', event.target.offsetLeft);
+      // console.log('удержана', event, 'y=', event.clientY - this.coordinateDeviation.y, 'x=', event.clientX - this.coordinateDeviation.x);
+
+      this.actualCard = event.target;
+
+      this.coordinateDeviation.x = event.clientX - event.target.offsetLeft;
+      this.coordinateDeviation.y = event.clientY - event.target.offsetTop;
+
+      this.actualCard.style.top = event.clientY - this.coordinateDeviation.y + 'px';
+      this.actualCard.style.left = event.clientX - this.coordinateDeviation.x + 'px';
+      // console.log('left', event.target.offsetLeft, 'top', event.target.offsetTop)
+
+      this.actualCard.style.width = event.target.offsetWidth + 'px';
+      this.actualCard.classList.add('transfer');
+    }
+  }
+
+  mouseUpListeners(event) {
+    // Отпустили кнопку мыши на элементе
+    event.preventDefault();
+    // console.log('отпущена', event.target);
+    // console.log('this.actualCard', this.actualCard);
+    if (this.actualCard) {
+      this.actualCard.removeAttribute('style');
+      this.actualCard.classList.remove('transfer');
+      this.actualCard = null;
+    }
+    
+  }
+
+  mouseMove(event) {
+    // Движение курсора мыши
+    if (this.actualCard) {
+      // console.log('движение', 'left', event.target.offsetLeft, 'top', event.target.offsetTop)
+      // console.log('движение', 'event.clientY', event.clientY, 'event.clientX', event.clientX)
+      this.actualCard.style.top = event.clientY - this.coordinateDeviation.y + 'px';
+      this.actualCard.style.left = event.clientX - this.coordinateDeviation.x + 'px';
     }
   }
 }

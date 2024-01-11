@@ -9,6 +9,8 @@ export default class WindowEditor {
     this.mouseOverListeners = [];
     this.mouseOutListeners = [];
     this.taskListeners = [];
+    this.mouseDownListeners = [];
+    this.mouseUpListeners = [];
   }
 
   bindToDOM(object) {
@@ -22,7 +24,14 @@ export default class WindowEditor {
         this.drawNewCard(slug, task);
       }
     }
+
+    // this.parent.addEventListener('mousemove', this.onMouseMove);
+    // mainBlock.addEventListener('mouseup', (event) => this.onMouseUpTask(event));
   }
+
+  // onMouseMove(event) {
+  //   console.log(event.clientX + '-x:y-' + event.clientY);
+  // }
 
   static addTagHTML(parent, className = null, type = 'div') {
     // Создает заданный тег и добавляет его в parent
@@ -50,6 +59,7 @@ export default class WindowEditor {
     divColumn.addEventListener('mouseover', (event) => this.onMouseOverColumn(event));
     divColumn.addEventListener('mouseout', (event) => this.onMouseOutColumn(event));
     divColumn.addEventListener('click', (event) => this.onClickTaskCross(event));
+    divColumn.addEventListener('mousedown', (event) => this.onMouseDownTask(event));
     btn.addEventListener('click', (event) => this.onClickButtonAdd(event));
   }
 
@@ -167,5 +177,23 @@ export default class WindowEditor {
   addTaskCrossListeners(callback) {
     // Сохраняет callback для закрытия поля задачи
     this.taskListeners.push(callback);
+  }
+
+  onMouseDownTask(event) {
+    this.mouseDownListeners.forEach((o) => o.call(null, event));
+  }
+
+  addMouseDownListeners(callback) {
+    // Сохраняет callback (кнопка мыши нажата над элементом)
+    this.mouseDownListeners.push(callback);
+  }
+
+  onMouseUpTask(event) {
+    this.mouseUpListeners.forEach((o) => o.call(null, event));
+  }
+
+  addMouseUpListeners(callback) {
+    // Сохраняет callback (кнопка мыши отпущена над элементом)
+    this.mouseUpListeners.push(callback);
   }
 }

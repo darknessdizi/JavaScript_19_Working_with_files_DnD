@@ -60,13 +60,17 @@ body.task-1 {
   justify-content: space-between;
   width: 90%;
   align-items: flex-start;
+  background-color: cadetblue;
 }
 
 .column {
-  width: 250px;
   background-color: rgb(201, 199, 199);
   border-radius: 5px;
   padding: 5px;
+  margin-left: 15px;
+  margin-right: 15px;
+  flex: 1;
+  /* position: relative; */
 }
 
 .btn-add-card {
@@ -136,6 +140,7 @@ body.task-1 {
   color: rgb(49, 49, 49);
   font-size: 0.8em;
   position: relative;
+  cursor: default;
 }
 
 .card-cross {
@@ -150,4 +155,16 @@ body.task-1 {
   background-position: center;
   background-color: #e0e0e0;
   border: 5px solid #e0e0e0;
+}
+
+.card.transfer {
+  cursor: grabbing;
+  position: absolute;
+  z-index: 999;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.transfer {
+  transform: rotate(5deg);
 }

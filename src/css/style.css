@@ -167,4 +167,5 @@ body.task-1 {
 
 .transfer {
   transform: rotate(5deg);
+  pointer-events:none;
 }

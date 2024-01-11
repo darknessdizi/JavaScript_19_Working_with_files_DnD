@@ -10,7 +10,6 @@ export default class WindowEditor {
     this.mouseOutListeners = [];
     this.taskListeners = [];
     this.mouseDownListeners = [];
-    this.mouseUpListeners = [];
   }
 
   bindToDOM(object) {
@@ -186,14 +185,5 @@ export default class WindowEditor {
   addMouseDownListeners(callback) {
     // Сохраняет callback (кнопка мыши нажата над элементом)
     this.mouseDownListeners.push(callback);
-  }
-
-  onMouseUpTask(event) {
-    this.mouseUpListeners.forEach((o) => o.call(null, event));
-  }
-
-  addMouseUpListeners(callback) {
-    // Сохраняет callback (кнопка мыши отпущена над элементом)
-    this.mouseUpListeners.push(callback);
   }
 }

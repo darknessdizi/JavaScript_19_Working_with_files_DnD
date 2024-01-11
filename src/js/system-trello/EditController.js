@@ -15,6 +15,10 @@ export default class EditController {
       x: null,
       y: null,
     };
+
+    this.mouseUp = this.mouseUp.bind(this);
+    this.mouseMove = this.mouseMove.bind(this);
+    this.mouseOver = this.mouseOver.bind(this);
   }
 
   init() {
@@ -32,10 +36,6 @@ export default class EditController {
     this.edit.addOutColumnListeners(this.onMouseOutColumn.bind(this));
     this.edit.addTaskCrossListeners(this.onClickTaskCross.bind(this));
     this.edit.addMouseDownListeners(this.mouseDownListeners.bind(this));
-    this.edit.addMouseUpListeners(this.mouseUpListeners.bind(this))
-
-    document.documentElement.addEventListener('mouseup', this.mouseUpListeners.bind(this));
-    document.documentElement.addEventListener('mousemove', this.mouseMove.bind(this));
   }
 
   onClickButtonAdd(event) {
@@ -129,33 +129,39 @@ export default class EditController {
 
       this.actualCard.style.top = event.clientY - this.coordinateDeviation.y + 'px';
       this.actualCard.style.left = event.clientX - this.coordinateDeviation.x + 'px';
-      // console.log('left', event.target.offsetLeft, 'top', event.target.offsetTop)
 
       this.actualCard.style.width = event.target.offsetWidth + 'px';
       this.actualCard.classList.add('transfer');
+
+      document.documentElement.addEventListener('mouseup', this.mouseUp);
+      document.documentElement.addEventListener('mousemove', this.mouseMove);
+      document.documentElement.addEventListener('mouseover', this.mouseOver);
     }
   }
 
-  mouseUpListeners(event) {
+  mouseUp(event) {
     // Отпустили кнопку мыши на элементе
     event.preventDefault();
+    document.documentElement.removeEventListener('mouseup', this.mouseUp);
+    document.documentElement.removeEventListener('mousemove', this.mouseMove);
+    document.documentElement.removeEventListener('mouseover', this.mouseOver);
     // console.log('отпущена', event.target);
     // console.log('this.actualCard', this.actualCard);
-    if (this.actualCard) {
-      this.actualCard.removeAttribute('style');
-      this.actualCard.classList.remove('transfer');
-      this.actualCard = null;
-    }
-    
+    this.actualCard.removeAttribute('style');
+    this.actualCard.classList.remove('transfer');
+    this.actualCard = null;
+
   }
 
   mouseMove(event) {
     // Движение курсора мыши
-    if (this.actualCard) {
-      // console.log('движение', 'left', event.target.offsetLeft, 'top', event.target.offsetTop)
-      // console.log('движение', 'event.clientY', event.clientY, 'event.clientX', event.clientX)
-      this.actualCard.style.top = event.clientY - this.coordinateDeviation.y + 'px';
-      this.actualCard.style.left = event.clientX - this.coordinateDeviation.x + 'px';
-    }
+    // console.log('движение', 'left', event.target.offsetLeft, 'top', event.target.offsetTop)
+    // console.log('движение', 'event.clientY', event.clientY, 'event.clientX', event.clientX)
+    this.actualCard.style.top = event.clientY - this.coordinateDeviation.y + 'px';
+    this.actualCard.style.left = event.clientX - this.coordinateDeviation.x + 'px';
+  }
+
+  mouseOver(event) {
+    console.log('Над элементом', event.target)
   }
 }

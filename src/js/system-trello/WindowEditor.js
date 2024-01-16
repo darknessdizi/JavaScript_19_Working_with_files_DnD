@@ -14,7 +14,7 @@ export default class WindowEditor {
 
   bindToDOM(object) {
     // Создает и добавляет блок main в body
-    this.conteiner = WindowEditor.addTagHTML(this.parent, 'content', 'main');
+    this.conteiner = WindowEditor.addTagHTML(this.parent, 'content-task', 'main');
     const mainBlock = WindowEditor.addTagHTML(this.conteiner, 'conteiner');
     for (const params of Object.entries(object)) {
       const [slug, obj] = params;
@@ -23,14 +23,7 @@ export default class WindowEditor {
         this.drawNewCard(slug, task);
       }
     }
-
-    // this.parent.addEventListener('mousemove', this.onMouseMove);
-    // mainBlock.addEventListener('mouseup', (event) => this.onMouseUpTask(event));
   }
-
-  // onMouseMove(event) {
-  //   console.log(event.clientX + '-x:y-' + event.clientY);
-  // }
 
   static addTagHTML(parent, className = null, type = 'div') {
     // Создает заданный тег и добавляет его в parent
@@ -41,7 +34,7 @@ export default class WindowEditor {
   }
 
   addColumn(mainBlock, title, slug) {
-    // Создает колонку и добавляет его на главную странцу
+    // Создает колонку и добавляет её на главную странцу
     const divColumn = WindowEditor.addTagHTML(mainBlock, 'column');
     divColumn.setAttribute('id', slug);
     const columnTitle = WindowEditor.addTagHTML(divColumn, 'column-title', 'h3');
@@ -106,7 +99,7 @@ export default class WindowEditor {
 
   addElementCross(parent) {
     // Добавляет поле с крестиком для зыкрытия задачи
-    const cross = WindowEditor.addTagHTML(parent, 'card-cross');
+    WindowEditor.addTagHTML(parent, 'card-cross');
   }
 
   deleteElementCross(element) {
@@ -119,10 +112,7 @@ export default class WindowEditor {
     // Запускает обработчик для кнопки "Add card" при добавлении новой задачи
     event.preventDefault();
     if (this.form.checkValidity()) {
-      console.log('valid');
       this.buttonAddNewCardListeners.forEach((o) => o.call(null));
-    } else {
-      console.log('invalid');
     }
   }
 
@@ -136,7 +126,7 @@ export default class WindowEditor {
   }
 
   addCrossListeners(callback) {
-    // Сохраняет callback для блока с крестиком при добавлении новой задачи
+    // Сохраняет callback нажатие на крестик (закрытие формы добавления новой задачи)
     this.crossListeners.push(callback);
   }
 
@@ -156,7 +146,7 @@ export default class WindowEditor {
   }
 
   addOverColumnListeners(callback) {
-    // Сохраняет callback для кнопки "Add another card"
+    // Сохраняет callback (появление курсора над элементом)
     this.mouseOverListeners.push(callback);
   }
 
@@ -165,7 +155,7 @@ export default class WindowEditor {
   }
 
   addOutColumnListeners(callback) {
-    // Сохраняет callback для кнопки "Add another card"
+    // Сохраняет callback (курсор покинул элемент)
     this.mouseOutListeners.push(callback);
   }
 
@@ -174,7 +164,7 @@ export default class WindowEditor {
   }
 
   addTaskCrossListeners(callback) {
-    // Сохраняет callback для закрытия поля задачи
+    // Сохраняет callback для удаления поля задачи
     this.taskListeners.push(callback);
   }
 

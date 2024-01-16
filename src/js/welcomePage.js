@@ -28,7 +28,7 @@ function onReturnClick() {
   body.append(mainDiv);
 }
 
-export function createButton(mainBlock) {
+function createButton(mainBlock) {
   // Создаем кнопку возврата на главную страницу
   const btn = document.createElement('button');
   btn.textContent = 'Return';
@@ -44,6 +44,7 @@ function runTask1() {
   const edit = new WindowEditor(body);
   const controller = new EditController(edit);
   controller.init();
+  createButton(controller.edit.conteiner);
 }
 
 function runTask2() {

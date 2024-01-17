@@ -97,12 +97,12 @@ export default class WindowEditor {
     btn.before(card);
   }
 
-  addElementCross(parent) {
+  static addElementCross(parent) {
     // Добавляет поле с крестиком для зыкрытия задачи
     WindowEditor.addTagHTML(parent, 'card-cross');
   }
 
-  deleteElementCross(element) {
+  static deleteElementCross(element) {
     // Удаляет элемент крестика у карточки
     const cross = element.querySelector('.card-cross') || element;
     cross.remove();

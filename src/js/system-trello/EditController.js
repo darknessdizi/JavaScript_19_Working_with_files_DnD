@@ -73,7 +73,7 @@ export default class EditController {
     if (this.currentCard) return;
     if (event.target.classList.value === 'card') {
       this.currentCard = event.target;
-      this.edit.addElementCross(event.target);
+      this.edit.constructor.addElementCross(event.target);
     }
   }
 
@@ -88,7 +88,7 @@ export default class EditController {
       relatedTarget = relatedTarget.parentNode;
     }
     this.currentCard = null;
-    this.edit.deleteElementCross(event.target);
+    this.edit.constructor.deleteElementCross(event.target);
   }
 
   onClickTaskCross(event) {

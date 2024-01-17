@@ -54,7 +54,8 @@ body {
   cursor: pointer;
 }
 
-.btn-return:hover {
+.btn-return:hover,
+.btn__add:hover {
   background-color:chartreuse;
 }
 
@@ -201,4 +202,130 @@ body.task-1.grabbing {
 
 .grabbing .card:hover  {
   background-color: #f6f8f9;
+}
+
+/* ------------ CSS для задачи 2: ------------ */
+body.task-2 {
+  background-color: lightseagreen;
+  padding-top: 50px;
+}
+
+.conteiner__form {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(151, 252, 247);
+  padding: 20px;
+  border: 2px solid black;
+  border-radius: 15px;
+  display: inline-block;
+}
+
+.conteiner__label {
+  display: flex;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.conteiner__error {
+  text-align: right;
+  font-size: 1em;
+  color: red;
+  height: 2em;
+}
+
+.label__title {
+  flex-grow: 1;
+  padding-right: 20px;
+  display: inline-block;
+}
+
+.btn__add {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  margin-top: 20px;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.conteiner__frame {
+  position: relative;
+  background-color: pink;
+  width: 90vw;
+  height: 30vw;
+  border: 2px solid black;
+  border-radius: 55px;
+}
+
+.frame_input {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  opacity: 0;
+  border-radius: 55px;
+}
+
+.frame_span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 55px;
+  /* pointer-events: none; */
+}
+
+.span_text {
+  font-size: 2em;
+  width: 11em;
+  text-align: center;
+  cursor: default;
+}
+
+.conteiner__images {
+  width: 90vw;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.image__conteiner {
+  position: relative;
+  width: 200px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid black;
+  background-color: aquamarine;
+}
+
+.image__delete {
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  border-radius: 50%;
+  border: 2px solid black;
+  position: absolute;
+  right: -15px;
+  top: -15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.image__delete:hover {
+  background-color: aqua;
 }

@@ -1,5 +1,7 @@
 import WindowEditor from './system-trello/WindowEditor';
 import EditController from './system-trello/EditController';
+import ManagerController from './imageManager/ManagerController';
+import ManagerEdit from './imageManager/ManagerEdit';
 
 function createLinks() {
   // Создаем ссылки на наши задачи
@@ -50,5 +52,17 @@ function runTask1() {
 function runTask2() {
   // Запуск задачи 2
   body.innerHTML = '';
+  body.classList.add('task-2');
+  const manager = new ManagerEdit(body);
+  const controller = new ManagerController(manager);
+  controller.init();
   createButton(body);
 }
+
+// https://mykaleidoscope.ru/uploads/posts/2021-11/1636634307_32-mykaleidoscope-ru-p-top-krasivikh-devushek-devushka-krasivo-fo-34.jpg
+// https://img.goodfon.ru/original/2400x1504/5/76/devushka-vzgliad-krasivaia-volosy-ulitsa-boke.jpg
+// https://mykaleidoscope.ru/x/uploads/posts/2022-10/1666416087_46-mykaleidoscope-ru-p-vika-kazakova-oboi-51.jpg
+
+// https://i.pinimg.com/originals/e4/d4/36/e4d4365d18c914a5d9ce9d2f955263bf.jpg
+// https://i.pinimg.com/originals/a6/10/d4/a610d49d735fd595c46af5c135f08724.jpg
+// https://fikiwiki.com/uploads/posts/2022-02/1645015385_4-fikiwiki-com-p-kartinki-krasivikh-devushek-skachat-bespla-5.jpg

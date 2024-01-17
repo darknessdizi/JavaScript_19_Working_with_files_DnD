@@ -24,13 +24,12 @@ export default class ManagerEdit {
 
   createDivImage(name, url) {
     // Создает один блок с фотограффией
-    const img = document.createElement("img");
-    img.classList.add("image");
-    img.setAttribute("src", url);
-    img.setAttribute("alt", name);
-    img.setAttribute("title", name);
-    img.addEventListener("load", (event) => this.onLoad(event));
-    img.addEventListener("error", (event) => this.onErrorLoad(event));
+    const img = document.createElement('img');
+    img.classList.add('image');
+    img.setAttribute('src', url);
+    img.setAttribute('alt', name);
+    img.setAttribute('title', name);
+    img.addEventListener('load', (event) => this.onLoad(event));
   }
 
   onLoad(event) {
@@ -39,17 +38,13 @@ export default class ManagerEdit {
     imgDiv.append(event.target);
 
     const link = ManagerEdit.addTagHTML(imgDiv, 'image__delete', 'a');
-    link.textContent = "X";
-    link.addEventListener("click", (event) => this.onRemoveClick(event));
+    link.textContent = 'X';
+    link.addEventListener('click', (event) => ManagerEdit.onRemoveClick(event));
   }
 
-  onErrorLoad() {
-    // Ошибка загрузки фото (Неверный URL)
-  }
-
-  onRemoveClick(event) {
+  static onRemoveClick(event) {
     // Удаляет фотографию при нажатии крестика
-    const div = event.target.closest(".image__conteiner");
+    const div = event.target.closest('.image__conteiner');
     div.remove();
   }
 
@@ -62,7 +57,7 @@ export default class ManagerEdit {
     input.setAttribute('accept', 'image/*'); // Фильтр (только картинки можно выбрать)
     input.setAttribute('multiple', ''); // Множественный выбор элементов
     input.type = 'file';
-    input.addEventListener('change', (event) => this.onChangeInput(event)); 
+    input.addEventListener('change', (event) => this.onChangeInput(event));
 
     const divSpan = ManagerEdit.addTagHTML(this.conteiner, 'frame_span');
     const span = ManagerEdit.addTagHTML(divSpan, 'span_text', 'span');

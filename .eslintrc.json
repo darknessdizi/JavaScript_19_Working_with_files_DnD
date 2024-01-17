@@ -12,6 +12,7 @@
       "WithStatement"
     ],
     "no-use-before-define": ["error", { "functions": false }],
-    "no-underscore-dangle":  ["error", { "allow": ["_tooltips"] }]
+    "no-underscore-dangle":  ["error", { "allow": ["_fileProcessing"] }],
+    "no-shadow": "off"
   }
 }

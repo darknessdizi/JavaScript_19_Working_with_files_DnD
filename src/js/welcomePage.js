@@ -2,14 +2,16 @@ import WindowEditor from './system-trello/WindowEditor';
 import EditController from './system-trello/EditController';
 import ManagerController from './imageManager/ManagerController';
 import ManagerEdit from './imageManager/ManagerEdit';
+import WebInterfaceController from './web-interface/WebInterfaceController';
+import WebInterfaceEdit from './web-interface/WebInterfaceEdit';
 
 function createLinks() {
   // Создаем ссылки на наши задачи
   const main = document.createElement('main');
   main.classList.add('content');
-  const listTask = [runTask1, runTask2];
+  const listTask = [runTask1, runTask2, runTask3];
 
-  for (let i = 0; i < 2; i += 1) {
+  for (let i = 0; i < listTask.length; i += 1) {
     const link = document.createElement('a');
     link.classList.add('link__task');
     link.textContent = `Задача ${i + 1}`;
@@ -55,6 +57,16 @@ function runTask2() {
   body.classList.add('task-2');
   const manager = new ManagerEdit(body);
   const controller = new ManagerController(manager);
+  controller.init();
+  createButton(body);
+}
+
+function runTask3() {
+  // Запуск задачи 3
+  body.innerHTML = '';
+  body.classList.add('task-3');
+  const webEdit = new WebInterfaceEdit(body);
+  const controller = new WebInterfaceController(webEdit);
   controller.init();
   createButton(body);
 }

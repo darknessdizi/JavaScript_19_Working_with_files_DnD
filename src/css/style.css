@@ -329,3 +329,34 @@ body.task-2 {
 .image__delete:hover {
   background-color: aqua;
 }
+
+/* ------------ CSS для задачи 3: ------------ */
+body.task-3 {
+  background-color: rgb(32, 178, 93);
+  padding-top: 50px;
+}
+
+.task-3 .content-task {
+  display: block;
+}
+
+.content-conteiner-files {
+  margin-left: auto;
+  margin-right: auto;
+  width: 90vw;
+}
+
+.content-files {
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: antiquewhite;
+}
+
+/* .content-files-title {
+  margin-left: 10px;
+} */
+
+.content-download {
+  margin-top: 10px;
+}

@@ -1,6 +1,8 @@
 export default class WebInterfaceEdit {
   constructor(parent) {
     this.parent = parent;
+    this.result = null;
+    this.clickListeners = [];
   }
 
   bindToDOM(array) {
@@ -9,14 +11,14 @@ export default class WebInterfaceEdit {
     const conteiner = WebInterfaceEdit.addTagHTML(main, 'conteiner-manager');
     const divFiles = WebInterfaceEdit.addTagHTML(conteiner, 'content-files');
 
-    this.createTable(divFiles, array);
-    // const title = WebInterfaceEdit.addTagHTML(divFiles, 'content-files-title', 'span');
-    // title.textContent = 'Available Files (without sms and registration):';
+    const table = WebInterfaceEdit.createTable(divFiles, array);
+    table.addEventListener('click', (event) => this.onClickDownload(event));
 
     const divDownLoad = WebInterfaceEdit.addTagHTML(conteiner, 'content-download');
     divDownLoad.textContent = "You've already downloaded: ";
-    const span = WebInterfaceEdit.addTagHTML(divDownLoad, 'content-download-size', 'span');
-    span.textContent = 'XX Mb'
+    this.result = WebInterfaceEdit.addTagHTML(divDownLoad, 'content-download-size', 'span');
+    this.result.textContent = '0';
+    this.result.after(' Mb');
   }
 
   static addTagHTML(parent, className = null, type = 'div') {
@@ -27,39 +29,42 @@ export default class WebInterfaceEdit {
     return div;
   }
 
-  createTable(parent, array) {
+  static createTable(parent, array) {
+    // Создание таблицы с файлами для скачивания
     const table = WebInterfaceEdit.addTagHTML(parent, 'files-table', 'table');
+
     const head = WebInterfaceEdit.addTagHTML(table, 'table-head', 'thead');
     let row = WebInterfaceEdit.addTagHTML(head, 'head-row', 'tr');
     const heading = WebInterfaceEdit.addTagHTML(row, 'row-heading', 'th');
-    heading.setAttribute('colspan', '2');
+    heading.setAttribute('colspan', '3');
     heading.textContent = 'Available Files (without sms and registration):';
 
     const body = WebInterfaceEdit.addTagHTML(table, 'table-body', 'tbody');
     for (const obj of array) {
       row = WebInterfaceEdit.addTagHTML(body, 'body-row', 'tr');
       const title = WebInterfaceEdit.addTagHTML(row, 'row-data', 'td');
-      title.textContent = obj.file.name;
-      const size = WebInterfaceEdit.addTagHTML(row, 'row-data', 'td');
+      title.textContent = obj.name;
 
-      const data = WebInterfaceEdit.compareSize(obj.file.size);
-      size.textContent = data;
-      const link = WebInterfaceEdit.addTagHTML(row, 'row-data', 'td');
+      const size = WebInterfaceEdit.addTagHTML(row, 'row-data', 'td');
+      size.textContent = obj.size;
+
+      const tdLink = WebInterfaceEdit.addTagHTML(row, 'row-data', 'td');
+      const link = WebInterfaceEdit.addTagHTML(tdLink, 'row-data-link', 'a');
+      link.setAttribute('download', obj.name); // Имя скачанного файла
+      link.setAttribute('href', obj.href);
+      link.setAttribute('rel', 'noopener'); // Обеспечивает скачивание файла, а не его открытие
       link.textContent = 'Download';
+    }
+    return table;
+  }
+
+  onClickDownload(event) {
+    if (event.target.classList.value === 'row-data-link') {
+      this.clickListeners.forEach((o) => o.call(null, event));
     }
   }
 
-  static compareSize(size) {
-    let result = null;
-    let data = size / 1024;
-    if (data > 1024) {
-      data = data / 1024;
-      data = data.toFixed(2);
-      result = `${data} Mb`;
-    } else {
-      data = data.toFixed(2);
-      result = `${data} Kb`;
-    }
-    return result;
+  addClickDownload(callback) {
+    this.clickListeners.push(callback);
   }
 }

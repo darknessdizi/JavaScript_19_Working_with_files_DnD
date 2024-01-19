@@ -354,16 +354,17 @@ body.task-3 {
   background-color: antiquewhite;
 }
 
-/* .content-files-title {
-  margin-left: 10px;
-} */
-
 .content-download {
   margin-top: 10px;
 }
 
+.content-download-size {
+  color: red;
+}
+
 .files-table {
   width: 100%;
+  border-spacing: 0em 0.5em;
 }
 
 .table-head {
@@ -376,4 +377,12 @@ body.task-3 {
 
 .body-row .row-data:nth-child(1) {
   text-align: left;
+}
+
+.row-data-link {
+  color: black;
+}
+
+.row-data-link:hover {
+  color: rgb(1, 202, 102);
 }

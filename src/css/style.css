@@ -252,7 +252,8 @@ body.task-2 {
   position: relative;
   background-color: pink;
   width: 90vw;
-  height: 30vw;
+  max-width: 1000px;
+  height: 20vw;
   border: 2px solid black;
   border-radius: 55px;
 }

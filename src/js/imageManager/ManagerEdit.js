@@ -1,3 +1,7 @@
+import img1 from '../../img/1.jpg'; // Тестовые фото
+import img2 from '../../img/3.jpg';
+import img3 from '../../img/6.jpg';
+
 export default class ManagerEdit {
   constructor(parent) {
     this.parent = parent;
@@ -12,6 +16,10 @@ export default class ManagerEdit {
     const main = ManagerEdit.addTagHTML(this.parent, 'content-task', 'main');
     this.addTagInputFile(main);
     this.divImgs = ManagerEdit.addTagHTML(main, 'conteiner__images');
+
+    this.createDivImage('Лиза', img1); // Для красоты 
+    this.createDivImage('Ника', img3); // Для красоты
+    this.createDivImage('Дизи', img2); // Для красоты
   }
 
   static addTagHTML(parent, className = null, type = 'div') {

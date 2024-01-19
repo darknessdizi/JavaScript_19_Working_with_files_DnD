@@ -22,7 +22,7 @@ export default class WebInterfaceController {
   onClickDownload(event) {
     // Callback - нажатие на ссылку скачивания
     const { target } = event;
-    let file = new File([target.href], '');
+    const file = new File([target.href], '');
     const reader = new FileReader();
     reader.addEventListener('load', this.loadFile.bind(this));
     reader.readAsDataURL(file);
@@ -31,7 +31,7 @@ export default class WebInterfaceController {
   loadFile(event) {
     // Обработка события скачивания файла с помощью FileReader
     let count = Number(this.edit.result.textContent);
-    let size = event.total / 1024 / 1024;
+    const size = event.total / 1024 / 1024;
     count += size;
     this.edit.result.textContent = count.toFixed(2);
   }

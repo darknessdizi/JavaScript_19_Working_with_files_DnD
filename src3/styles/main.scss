@@ -1,0 +1,30 @@
+@import "vars.scss";
+@import "mixins.scss";
+@import "null.scss";
+
+$contentWidth: 60%;
+
+.root {
+  @extend %root;
+  background-color: $neutral-placeholder;
+  font-size: 1.3em;
+  &__content {
+    width: $contentWidth;
+  }
+  &__quantity {
+    margin-top: 30px;
+    font-weight: bold;
+    span {
+      color: red;
+    }
+  }
+}
+
+.table {
+  @extend %table;
+  @include table3ColSize(50%, 15%, $brdRadTable);
+  .link {
+    color: inherit;
+    text-decoration-line: underline;
+  }
+}

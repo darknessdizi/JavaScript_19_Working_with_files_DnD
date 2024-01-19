@@ -1,0 +1,70 @@
+@import 'vars.scss';
+
+@function rem($pixels, $context: $mainFontSize) {
+  @if (unitless($pixels)) {
+    $pixels: $pixels * 1px;
+  }
+  @if (unitless($context)) {
+    $context: $context * 1px;
+  }
+  @return $pixels / $context * 1rem;
+}
+
+// size to one line
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+%table {
+  border: 1px solid #000;
+  background-color: $default-color;
+  border-collapse: inherit;
+  width: 100%;
+  text-align: left;
+  padding: 15px;
+  th {
+    padding: 20px 0;
+  }
+  td {
+    padding: 10px 0;
+  }
+}
+
+%root {
+  @include size(100%, 100%);
+  overflow: auto;
+  .root__body {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 15px;
+  }
+}
+
+@mixin table3ColSize($col1, $col3, $brdRad: none) {
+  td:nth-child(1) {
+    width: $col1;
+  }
+  td:nth-child(3) {
+    width: $col3;
+  }
+  border-radius: $brdRad;
+}
+
+// placeholder helper
+@mixin placeholder {
+  ::-webkit-input-placeholder {
+    @content;
+  }
+  :-moz-placeholder {
+    @content;
+  }
+  ::-moz-placeholder {
+    @content;
+  }
+  :-ms-input-placeholder {
+    @content;
+  }
+}

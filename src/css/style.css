@@ -340,10 +340,11 @@ body.task-3 {
   display: block;
 }
 
-.content-conteiner-files {
+.conteiner-manager {
   margin-left: auto;
   margin-right: auto;
   width: 90vw;
+  max-width: 1000px;
 }
 
 .content-files {
@@ -359,4 +360,20 @@ body.task-3 {
 
 .content-download {
   margin-top: 10px;
+}
+
+.files-table {
+  width: 100%;
+}
+
+.table-head {
+  text-align: left;
+}
+
+.row-data {
+  text-align: right;
+}
+
+.body-row .row-data:nth-child(1) {
+  text-align: left;
 }

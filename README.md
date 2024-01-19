@@ -1,5 +1,9 @@
 # Домашнее задание к занятию "6. Работа с файлами, DnD"
 
+[![Build status](https://ci.appveyor.com/api/projects/status/lm3cwsbbatw7lhip?svg=true)](https://ci.appveyor.com/project/darknessdizi/javascript-19-working-with-files-dnd)
+
+**Ссылка на страницу: https://darknessdizi.github.io/JavaScript_19_Working_with_files_DnD/**
+
 Правила сдачи задания:
 
 1. **Важно**: в рамках этого ДЗ нужно использовать yarn (поэтому файла `package-lock.json` в репозитории быть не должно)

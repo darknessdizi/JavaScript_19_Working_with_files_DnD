@@ -17,7 +17,7 @@ export default class ManagerEdit {
     this.addTagInputFile(main);
     this.divImgs = ManagerEdit.addTagHTML(main, 'conteiner__images');
 
-    this.createDivImage('Лиза', img1); // Для красоты 
+    this.createDivImage('Лиза', img1); // Для красоты
     this.createDivImage('Ника', img3); // Для красоты
     this.createDivImage('Дизи', img2); // Для красоты
   }
